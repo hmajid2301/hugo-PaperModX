@@ -12,6 +12,9 @@
     Powered by
     <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
     <a href="https://github.com/reorx/hugo-PaperModX/" rel="noopener" target="_blank">PaperModX</a>
+    {{- if .Site.Params.goatcounter }}
+      <span>Analytics by <a href="https://{{ .Site.Params.goatcounter }}.goatcounter.com">Goatcounter</a>
+    {{- end}}
   </span>
 </footer>
 {{- end }}
