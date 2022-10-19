@@ -1,5 +1,12 @@
 # PaperModX
 
+## My Changes
+
+- Mermaid Diagram Support
+- Series posts shown
+- Admonitions
+- A bunch of PRs merged
+
 PaperModX is a forked version of [PaperMod](https://github.com/adityatelange/hugo-PaperMod),
 it aims at adding new features and improving code quality,
 makes it easier to read and modify by anyone with basic knowledge of Hugo and HTML.
