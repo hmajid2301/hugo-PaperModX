@@ -42,30 +42,29 @@
     {{- if not (.Param "disableAnchoredHeadings") }}
     {{- partial "anchored_headings.html" .Content -}}
     {{- else }}{{ .Content }}{{ end }}
+
+    {{ if .Params.series }}
+      <br>
+      <hr>
+      <br>
+      {{ $name := index .Params.series 0 }}
+      <p>This is a post in the <a href='/series/{{$name | urlize }}'>{{$name}}</a> series. </p>
+      {{ $name := $name | urlize }}
+      {{ $series := index .Site.Taxonomies.series $name }}
+      <ul class="series">
+      {{ range sort $series.Pages "Date" }}
+        {{ if eq .Title .LinkTitle }}
+          <li>{{.Date.Format "Jan 02, 2006"}} - {{.LinkTitle}} 👈🏼 You are here </li>
+        {{ else }}
+          <li>{{.Date.Format "Jan 02, 2006"}} - <a href="{{.Permalink}}">{{.LinkTitle}}</a></li>
+        {{end}}
+      {{end}}
+      </ul>
+      <br>
+      <hr>
+    {{end}} 
   </div>
   {{- end }}
-
-  {{ if .Params.series }}
-    <br>
-    <hr>
-    <br>
-    {{ $name := index .Params.series 0 }}
-    <p>This is a post in the <a href='/series/{{$name | urlize }}'>{{$name}}</a> series. </p>
-    {{ $name := $name | urlize }}
-    {{ $series := index .Site.Taxonomies.series $name }}
-    <ul class="series">
-    {{ range sort $series.Pages "Date" }}
-      {{ if eq .Title .LinkTitle }}
-        <small> <li>{{.Date.Format "Jan 02, 2006"}} - {{.LinkTitle}} 👈🏼 You are here </li></small>
-      {{ else }}
-        <small> <li>{{.Date.Format "Jan 02, 2006"}} - <a href="{{.Permalink}}">{{.LinkTitle}}</a></li></small>
-      {{end}}
-    {{end}}
-    </ul>
-    <br>
-    <hr>
-    <br>
-  {{end}} 
 
   <footer class="post-footer">
     {{- if (.Param "socialLinks") }}
