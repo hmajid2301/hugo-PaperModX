@@ -6,12 +6,12 @@
 
 - id: read_time
   translation:
-    one : "1 min"
+    one: "1 min"
     other: "{{ .Count }} min"
 
 - id: words
   translation:
-    one : "word"
+    one: "word"
     other: "{{ .Count }} words"
 
 - id: toc
@@ -34,3 +34,9 @@
 
 - id: comments
   translation: "Comments"
+
+# TODO: other i18n
+- search:
+    open_button_title: "Search (/)"
+    close_button_title: "Close (Esc)"
+    input_placeholder: "Search"
