@@ -5,6 +5,8 @@
 - Mermaid Diagram Support
 - Series posts shown
 - Admonitions
+- Inline Search
+  - Inspired by Blowfish Theme
 - A bunch of PRs merged
 
 PaperModX is a forked version of [PaperMod](https://github.com/adityatelange/hugo-PaperMod),

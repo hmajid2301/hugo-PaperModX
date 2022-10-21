@@ -1,4 +1,5 @@
-//TODO: options
+import * as params from '@params';
+
 var fuse;
 var showButton = document.getElementById("search-button");
 var showButtonMobile = document.getElementById("search-button-mobile");
@@ -125,6 +126,21 @@ function buildIndex() {
         { name: "content", weight: 0.4 },
       ],
     };
+    if (params.fuseOpts) {
+      options = {
+          isCaseSensitive: params.fuseOpts.iscasesensitive ?? false,
+          includeScore: params.fuseOpts.includescore ?? false,
+          includeMatches: params.fuseOpts.includematches ?? false,
+          minMatchCharLength: params.fuseOpts.minmatchcharlength ?? 1,
+          shouldSort: params.fuseOpts.shouldsort ?? true,
+          findAllMatches: params.fuseOpts.findallmatches ?? false,
+          keys: params.fuseOpts.keys ?? ['title', 'permalink', 'summary', 'content'],
+          location: params.fuseOpts.location ?? 0,
+          threshold: params.fuseOpts.threshold ?? 0.4,
+          distance: params.fuseOpts.distance ?? 100,
+          ignoreLocation: params.fuseOpts.ignorelocation ?? true
+      }
+    }
     fuse = new Fuse(data, options);
     indexed = true;
   });
@@ -139,11 +155,11 @@ function executeQuery(term) {
       resultsHTML =
         resultsHTML +
         `<li class="mb-2">
-          <a class="search-item" href="${value.item.permalink}" tabindex="0">
-            <div class="grow">
-              <div class="-mb-1 text-lg font-bold">${value.item.title}</div>
-              <div class="text-sm text-neutral-500 dark:text-neutral-400">${value.item.section}</div>
-              <div class="text-sm italic">${value.item.summary}</div>
+          <a class="search-item-link" href="${value.item.permalink}" tabindex="0">
+            <div class="search-item">
+              <div class="search-title">${value.item.title}</div>
+              <div class="search-date">${value.item.date}</div>
+              <div class="search-summary">${value.item.summary}</div>
             </div>
           </a>
         </li>`;

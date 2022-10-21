@@ -35,7 +35,6 @@
 - id: comments
   translation: "Comments"
 
-# TODO: other i18n
 - search:
     open_button_title: "Search (/)"
     close_button_title: "Close (Esc)"
