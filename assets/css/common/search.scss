@@ -40,6 +40,7 @@
   margin-right: auto;
   color: var(--primary);
   background-color: var(--entry);
+  border: 2px solid var(--theme);
 }
 
 .search-header {
@@ -131,6 +132,7 @@
   padding-left: 0.75rem;
   padding-right: 0.75rem; 
   flex-grow: 1;
+  background: var(--code-bg);
 }
 
 .search-title {
