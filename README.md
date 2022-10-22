@@ -7,6 +7,7 @@
 - Admonitions
 - Inline Search
   - Inspired by Blowfish Theme
+- Remove newsletter
 - A bunch of PRs merged
 
 PaperModX is a forked version of [PaperMod](https://github.com/adityatelange/hugo-PaperMod),
