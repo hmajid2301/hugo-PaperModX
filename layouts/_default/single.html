@@ -5,83 +5,108 @@
     {{ partial "breadcrumbs.html" . }}
 
     <h1 class="post-title">
-      {{- .Title -}}
-      {{- if .Draft -}}<sup><span class="entry-isdraft">&nbsp;&nbsp;[draft]</span></sup>{{- end -}}
+      {{- .Title -}} {{- if .Draft -}}<sup
+        ><span class="entry-isdraft">&nbsp;&nbsp;[draft]</span></sup
+      >{{- end -}}
     </h1>
     {{- if .Description }}
-    <div class="post-description">
-      {{- .Description -}}
-    </div>
-    {{- end }}
-    {{- if not (.Param "hideMeta") }}
+    <div class="post-description">{{- .Description -}}</div>
+    {{- end }} {{- if not (.Param "hideMeta") }}
     <div class="post-meta">
-      {{- partial "post_meta.html" . -}}
-      {{/* TODO move to footer */}}
-      {{ partial "edit_post.html" . }}
-      {{ partial "post_canonical.html" . }}
+      {{- partial "post_meta.html" . -}} {{/* TODO move to footer */}} {{
+      partial "edit_post.html" . }} {{ partial "post_canonical.html" . }}
     </div>
     {{- end }}
   </header>
 
-  {{- $isHidden := .Params.cover.hidden | default site.Params.cover.hiddenInSingle | default site.Params.cover.hidden }}
-  {{- partial "cover.html" (dict "cxt" . "IsHome" false "isHidden" $isHidden) }}
-  {{- if (.Param "ShowToc") }}
-  {{- partial "toc.html" . }}
-  {{- end }}
+  {{- $isHidden := .Params.cover.hidden | default
+  site.Params.cover.hiddenInSingle | default site.Params.cover.hidden }} {{-
+  partial "cover.html" (dict "cxt" . "IsHome" false "isHidden" $isHidden) }} {{-
+  if (.Param "ShowToc") }} {{- partial "toc.html" . }} {{- end }} {{ if (.Param
+  "enableLikes") }} {{- partial "likes.html" . }}
+  <script>
+    function fetchLikes(slug){
+      const data={
+        'slug':slug
+      }
+      fetch("/.netlify/functions/fetch_likes",
+      {
+        method: "POST",
+        body: JSON.stringify(data)
+      })
+      .then(function(res){ return res.json(); })
+      .then(function(data){
+        document.getElementById("likes_{{ .File.Path }}").innerText = data.likes;
+      })
+    }
 
-  {{- if .Content }}
+    function registerLikes(slug){
+      const data={
+        'slug':slug
+      }
+      fetch("/.netlify/functions/register_likes",
+      {
+        method: "POST",
+        body: JSON.stringify(data)
+      })
+      .then(function(res){ return res.json(); })
+      .then(function(data){
+        document.getElementById("likes_{{ .File.Path }}").innerText = data.likes;
+        const liked = localStorage.getItem(id_likes);
+        if (liked) {
+        } else {
+          document.querySelectorAll("span[id='likes_button_heart']")[0].style.display = "none"
+          document.querySelectorAll("span[id='likes_button_emtpty_heart']")[0].style.display = ""
+        }
+      })
+    }
+    fetchLikes({{$.Page.Permalink}})
+  </script>
+  {{- end }} {{- if .Content }}
   <div class="post-content">
-    {{- if not (.Param "disableAnchoredHeadings") }}
-    {{- partial "anchored_headings.html" .Content -}}
-    {{- else }}{{ .Content }}{{ end }}
-
-    {{ if .Params.series }}
-      <br>
-      <hr>
-      <br>
-      {{ $name := index .Params.series 0 }}
-      <p>This is a post in the <a href='/series/{{$name | urlize }}'>{{$name}}</a> series. </p>
-      {{ $name := $name | urlize }}
-      {{ $series := index .Site.Taxonomies.series $name }}
-      <ul class="series">
-      {{ range sort $series.Pages "Date" }}
-        {{ if eq $.Page.Title .Title }}
-          <li>{{.Date.Format "Jan 02, 2006"}} - {{.LinkTitle}}  👈🏼 You are here </li>
-        {{ else }}
-          <li>{{.Date.Format "Jan 02, 2006"}} - <a href="{{.Permalink}}">{{.LinkTitle}}</a></li>
-        {{end}}
-      {{end}}
-      </ul>
-      <br>
-      <hr>
-    {{end}} 
+    {{- if not (.Param "disableAnchoredHeadings") }} {{- partial
+    "anchored_headings.html" .Content -}} {{- else }}{{ .Content }}{{ end }} {{
+    if .Params.series }}
+    <br />
+    <hr />
+    <br />
+    {{ $name := index .Params.series 0 }}
+    <p>
+      This is a post in the
+      <a href="/series/{{$name | urlize }}">{{$name}}</a> series.
+    </p>
+    {{ $name := $name | urlize }} {{ $series := index .Site.Taxonomies.series
+    $name }}
+    <ul class="series">
+      {{ range sort $series.Pages "Date" }} {{ if eq $.Page.Title .Title }}
+      <li>{{.Date.Format "Jan 02, 2006"}} - {{.LinkTitle}} 👈🏼 You are here</li>
+      {{ else }}
+      <li>
+        {{.Date.Format "Jan 02, 2006"}} -
+        <a href="{{.Permalink}}">{{.LinkTitle}}</a>
+      </li>
+      {{end}} {{end}}
+    </ul>
+    <br />
+    <hr />
+    {{end}}
   </div>
   {{- end }}
 
   <footer class="post-footer">
-    {{- if (.Param "socialLinks") }}
-    {{- partial "social_links.html" . }}
-    {{- end }}
-
-    {{- if (and .Site.Params.ShowShareButtons (ne .Params.disableShare true) ) }}
-    {{- partial "share_icons.html" . }}
-    {{- end }}
-
-    {{- if (.Param "ShowPostNavLinks") }}
-    {{- partial "post_nav_links.html" . }}
-    {{- end }}
+    {{- if (.Param "socialLinks") }} {{- partial "social_links.html" . }} {{-
+    end }} {{- if (and .Site.Params.ShowShareButtons (ne .Params.disableShare
+    true) ) }} {{- partial "share_icons.html" . }} {{- end }} {{- if (.Param
+    "ShowPostNavLinks") }} {{- partial "post_nav_links.html" . }} {{- end }}
   </footer>
 
-  {{- if not (.Param "noComments") }}
-    {{- partial "comments.html" . }}
-  {{- end }}
+  {{- if not (.Param "noComments") }} {{- partial "comments.html" . }} {{- end
+  }}
 </article>
 
 {{ if .Page.Store.Get "hasMermaid" }}
-  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-  <script>
-    mermaid.initialize({ startOnLoad: true });
-  </script>
-{{ end }}
-
-{{- end }}{{/* end main */}}
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<script>
+  mermaid.initialize({ startOnLoad: true });
+</script>
+{{ end }} {{- end }}{{/* end main */}}
