@@ -20,10 +20,8 @@
   </header>
 
   {{- $isHidden := .Params.cover.hidden | default
-  site.Params.cover.hiddenInSingle | default site.Params.cover.hidden }} {{-
-  partial "cover.html" (dict "cxt" . "IsHome" false "isHidden" $isHidden) }} {{-
-  if (.Param "ShowToc") }} {{- partial "toc.html" . }} {{- end }} {{ if (.Param
-  "enableLikes") }} {{- partial "likes.html" . }}
+  site.Params.cover.hiddenInSingle | default site.Params.cover.hidden }} {{- partial "cover.html" (dict "cxt" . "IsHome" false "isHidden" $isHidden) }} {{-
+  if (.Param "ShowToc") }} {{- partial "toc.html" . }} {{- end }} {{ if (.Param "enableLikes") }} {{- partial "likes.html" . }}
   <script>
     function fetchLikes(slug){
       const data={
@@ -41,8 +39,10 @@
     }
 
     function registerLikes(slug){
+      const liked = localStorage.getItem(slug);
       const data={
-        'slug':slug
+        'slug':slug,
+        'increment': bool(liked),
       }
       fetch("/.netlify/functions/register_likes",
       {
@@ -52,11 +52,14 @@
       .then(function(res){ return res.json(); })
       .then(function(data){
         document.getElementById("likes_{{ .File.Path }}").innerText = data.likes;
-        const liked = localStorage.getItem(id_likes);
         if (liked) {
-        } else {
           document.querySelectorAll("span[id='likes_button_heart']")[0].style.display = "none"
           document.querySelectorAll("span[id='likes_button_emtpty_heart']")[0].style.display = ""
+          localStorage.setItem(slug, true)
+        } else {
+          document.querySelectorAll("span[id='likes_button_heart']")[0].style.display = ""
+          document.querySelectorAll("span[id='likes_button_emtpty_heart']")[0].style.display = "none"
+          localStorage.setItem(slug, false)
         }
       })
     }
