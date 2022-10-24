@@ -13,6 +13,7 @@ exports.handler = async (event) => {
   const index = "likes_by_slug";
   const db = "likes";
   const slug = data.slug;
+  const isIncrementLiked = data.increment;
   if (!slug) {
     return {
       statusCode: 400,
@@ -33,10 +34,19 @@ exports.handler = async (event) => {
     );
   }const document = await client.query(
     q.Get(q.Match(q.Index(index), slug))
-  );await client.query(
+  );
+  
+  let newLikes = document.data.likes
+  if (isIncrementLiked) {
+    newLikes += 1
+  } else {
+    newLikes -= 1
+  }
+
+  await client.query(
     q.Update(document.ref, {
       data: {
-        likes: document.data.likes + 1,
+        likes: newLikes,
       },
     })
   );const updatedDocument = await client.query(

@@ -35,6 +35,7 @@
       .then(function(res){ return res.json(); })
       .then(function(data){
         document.getElementById("likes_{{ .File.Path }}").innerText = data.likes;
+        showHeart()
       })
     }
 
@@ -51,17 +52,22 @@
       })
       .then(function(res){ return res.json(); })
       .then(function(data){
-        document.getElementById("likes_{{ .File.Path }}").innerText = data.likes;
-        if (liked) {
-          document.querySelectorAll("span[id='likes_button_heart']")[0].style.display = "none"
-          document.querySelectorAll("span[id='likes_button_emtpty_heart']")[0].style.display = ""
-          localStorage.setItem(slug, true)
-        } else {
-          document.querySelectorAll("span[id='likes_button_heart']")[0].style.display = ""
-          document.querySelectorAll("span[id='likes_button_emtpty_heart']")[0].style.display = "none"
-          localStorage.setItem(slug, false)
-        }
+        document.getelementbyid("likes_{{ .file.path }}").innertext = data.likes;
+        showHeart()
       })
+    }
+
+    function showHeart() {
+      const liked = localStorage.getItem(slug);
+      if (liked) {
+        document.querySelectorAll("span[id='likes_button_heart']")[0].style.display = ""
+        document.querySelectorAll("span[id='likes_button_emtpty_heart']")[0].style.display = "none"
+        localStorage.setItem(slug, false)
+      } else {
+        document.querySelectorAll("span[id='likes_button_heart']")[0].style.display = "none"
+        document.querySelectorAll("span[id='likes_button_emtpty_heart']")[0].style.display = ""
+        localStorage.setItem(slug, true)
+      }
     }
     fetchLikes({{$.Page.Permalink}})
   </script>
