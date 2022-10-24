@@ -49,9 +49,12 @@ exports.handler = async (event) => {
         likes: newLikes,
       },
     })
-  );const updatedDocument = await client.query(
+  );
+  const updatedDocument = await client.query(
     q.Get(q.Match(q.Index(index), slug))
-  );return {
+  );
+  
+  return {
     statusCode: 200,
     body: JSON.stringify({
       likes: updatedDocument.data.likes,

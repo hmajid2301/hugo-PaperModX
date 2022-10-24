@@ -20,8 +20,10 @@
   </header>
 
   {{- $isHidden := .Params.cover.hidden | default
-  site.Params.cover.hiddenInSingle | default site.Params.cover.hidden }} {{- partial "cover.html" (dict "cxt" . "IsHome" false "isHidden" $isHidden) }} {{-
-  if (.Param "ShowToc") }} {{- partial "toc.html" . }} {{- end }} {{ if (.Param "enableLikes") }} {{- partial "likes.html" . }}
+  site.Params.cover.hiddenInSingle | default site.Params.cover.hidden }} {{-
+  partial "cover.html" (dict "cxt" . "IsHome" false "isHidden" $isHidden) }} {{-
+  if (.Param "ShowToc") }} {{- partial "toc.html" . }} {{- end }} {{ if (.Param
+  "enableLikes") }} {{- partial "likes.html" . }}
   <script>
     function fetchLikes(slug){
       const data={
@@ -34,8 +36,8 @@
       })
       .then(function(res){ return res.json(); })
       .then(function(data){
-        document.getElementById("likes_{{ .File.Path }}").innerText = data.likes;
-        showHeart()
+        document.getElementById("likes").innerText = data.likes;
+        showHeart(slug)
       })
     }
 
@@ -43,7 +45,7 @@
       const liked = localStorage.getItem(slug);
       const data={
         'slug':slug,
-        'increment': bool(liked),
+        'increment': Boolean(liked),
       }
       fetch("/.netlify/functions/register_likes",
       {
@@ -52,13 +54,14 @@
       })
       .then(function(res){ return res.json(); })
       .then(function(data){
-        document.getelementbyid("likes_{{ .file.path }}").innertext = data.likes;
-        showHeart()
+        document.getElementById("likes").innertext = data.likes;
+        showHeart(slug)
       })
     }
 
-    function showHeart() {
+    function showHeart(slug) {
       const liked = localStorage.getItem(slug);
+      console.log("LIKED", liked)
       if (liked) {
         document.querySelectorAll("span[id='likes_button_heart']")[0].style.display = ""
         document.querySelectorAll("span[id='likes_button_emtpty_heart']")[0].style.display = "none"
