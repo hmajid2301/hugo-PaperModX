@@ -6,12 +6,14 @@ exports.handler = async (event) => {
     secret: process.env.FAUNA_API_KEY,
   });
   const data = JSON.parse(event.body)
-  // const isStaging = contxt==="branch-deploy"?true:false;
-  // const index = isStaging?'collection_stage':'collection_prod'
-  // const db = isStaging?'index_stage':'index_prod'
 
-  const index = "likes_by_slug";
-  const db = "likes";
+  let index = "likes_by_slug";
+  let db = "likes";
+
+  if (contxt == "branch-deploy") {
+    index = "likes_test_by_slug"
+    db = "likes_test"
+  }
   const slug = data.slug;
   const isIncrementLiked = data.increment;
   if (!slug) {
