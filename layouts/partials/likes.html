@@ -11,7 +11,7 @@
       padding-right: 10px;
     "
     class="!rounded-md bg-primary-600 px-4 py-2 !text-neutral !no-underline hover:!bg-primary-500 dark:bg-primary-800 dark:hover:!bg-primary-700"
-    onclick="registerLikes({{$.Page.Permalink}})"
+    onclick="registerLikes({{ $.Page.Permalink }})"
   >
     <span id="likes_button_heart" style="display: none">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -21,7 +21,7 @@
         />
       </svg>
     </span>
-    <span id="likes_button_emtpty_heart" style="display: none">
+    <span id="likes_button_empty_heart" style="display: none">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
         <path
           fill="currentColor"
@@ -33,3 +33,56 @@
   </button>
 </span>
 {{- /* Trim EOF */ -}}
+
+<script>
+  function fetchLikes(slug){
+    const data={
+      'slug':slug
+    }
+    fetch("/.netlify/functions/fetch_likes",
+    {
+      method: "POST",
+      body: JSON.stringify(data)
+    })
+    .then(function(res){ return res.json(); })
+    .then(function(data){
+      document.getElementById("likes").innerText = data.likes;
+      showHeart(slug)
+    })
+  }
+
+  function registerLikes(slug){
+    const liked = localStorage.getItem(slug);
+    const isLiked = liked === "true" ? true : false
+    const data={
+      'slug':slug,
+      'increment': !isLiked
+    }
+    fetch("/.netlify/functions/register_likes",
+    {
+      method: "POST",
+      body: JSON.stringify(data)
+    })
+    .then(function(res){ return res.json(); })
+    .then(function(data){
+      document.getElementById("likes").innerText = data.likes;
+      localStorage.setItem(slug, !isLiked)
+      showHeart(slug)
+    })
+  }
+
+  function showHeart(slug) {
+    const liked = localStorage.getItem(slug);
+    console.log("LIKED", liked, slug)
+    if (liked === "true") {
+      console.log("TRUE")
+      document.getElementById("likes_button_heart").style.display = ""
+      document.getElementById("likes_button_empty_heart").style.display = "none"
+    } else {
+      console.log("FALSE")
+      document.getElementById("likes_button_heart").style.display = "none"
+      document.getElementById("likes_button_empty_heart").style.display = ""
+    }
+  }
+  fetchLikes({{$.Page.Permalink}})
+</script>

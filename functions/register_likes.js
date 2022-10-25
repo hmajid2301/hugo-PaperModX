@@ -32,7 +32,9 @@ exports.handler = async (event) => {
         data: { slug: slug, likes: 1 },
       })
     );
-  }const document = await client.query(
+  }
+  
+  const document = await client.query(
     q.Get(q.Match(q.Index(index), slug))
   );
   
@@ -50,14 +52,11 @@ exports.handler = async (event) => {
       },
     })
   );
-  const updatedDocument = await client.query(
-    q.Get(q.Match(q.Index(index), slug))
-  );
   
   return {
     statusCode: 200,
     body: JSON.stringify({
-      likes: updatedDocument.data.likes,
+      likes: newLikes,
     }),
   };
 };

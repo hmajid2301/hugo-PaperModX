@@ -23,58 +23,7 @@
   site.Params.cover.hiddenInSingle | default site.Params.cover.hidden }} {{-
   partial "cover.html" (dict "cxt" . "IsHome" false "isHidden" $isHidden) }} {{-
   if (.Param "ShowToc") }} {{- partial "toc.html" . }} {{- end }} {{ if (.Param
-  "enableLikes") }} {{- partial "likes.html" . }}
-  <script>
-    function fetchLikes(slug){
-      const data={
-        'slug':slug
-      }
-      fetch("/.netlify/functions/fetch_likes",
-      {
-        method: "POST",
-        body: JSON.stringify(data)
-      })
-      .then(function(res){ return res.json(); })
-      .then(function(data){
-        document.getElementById("likes").innerText = data.likes;
-        showHeart(slug)
-      })
-    }
-
-    function registerLikes(slug){
-      const liked = localStorage.getItem(slug);
-      const data={
-        'slug':slug,
-        'increment': Boolean(liked),
-      }
-      fetch("/.netlify/functions/register_likes",
-      {
-        method: "POST",
-        body: JSON.stringify(data)
-      })
-      .then(function(res){ return res.json(); })
-      .then(function(data){
-        document.getElementById("likes").innertext = data.likes;
-        showHeart(slug)
-      })
-    }
-
-    function showHeart(slug) {
-      const liked = localStorage.getItem(slug);
-      console.log("LIKED", liked)
-      if (liked) {
-        document.querySelectorAll("span[id='likes_button_heart']")[0].style.display = ""
-        document.querySelectorAll("span[id='likes_button_emtpty_heart']")[0].style.display = "none"
-        localStorage.setItem(slug, false)
-      } else {
-        document.querySelectorAll("span[id='likes_button_heart']")[0].style.display = "none"
-        document.querySelectorAll("span[id='likes_button_emtpty_heart']")[0].style.display = ""
-        localStorage.setItem(slug, true)
-      }
-    }
-    fetchLikes({{$.Page.Permalink}})
-  </script>
-  {{- end }} {{- if .Content }}
+  "enableLikes") }} {{- partial "likes.html" . }} {{- end }} {{- if .Content }}
   <div class="post-content">
     {{- if not (.Param "disableAnchoredHeadings") }} {{- partial
     "anchored_headings.html" .Content -}} {{- else }}{{ .Content }}{{ end }} {{

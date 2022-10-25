@@ -28,23 +28,19 @@ exports.handler = async (event) => {
   if (!doesDocExist) {
     await client.query(
       q.Create(q.Collection(db), {
-        data: { slug: slug, likes: 1 },
+        data: { slug: slug, likes: 0 },
       })
     );
-  }const document = await client.query(
+  }
+  
+  const document = await client.query(
     q.Get(q.Match(q.Index(index), slug))
-  );await client.query(
-    q.Update(document.ref, {
-      data: {
-        likes: document.data.likes + 1,
-      },
-    })
-  );const updatedDocument = await client.query(
-    q.Get(q.Match(q.Index(index), slug))
-  );return {
+  );
+  
+  return {
     statusCode: 200,
     body: JSON.stringify({
-      likes: updatedDocument.data.likes,
+      likes: document.data.likes
     }),
   };
 };
