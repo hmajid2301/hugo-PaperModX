@@ -11,8 +11,12 @@
   <span style="display: inline-block; margin-left: 1em;">
     Powered by
     <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
-    <a href="https://github.com/reorx/hugo-PaperModX/" rel="noopener" target="_blank">PaperModX</a>
-  </span>
+    <a href="https://github.com/reorx/hugo-PaperModX/" rel="noopener" target="_blank">PaperModX</a>.
+    {{- if .Site.Params.goatcounter }}
+      <span>
+        Analytics by <a href="https://{{ .Site.Params.goatcounter }}.goatcounter.com">Goatcounter</a>.
+      </span>
+    {{- end}}
 </footer>
 {{- end }}
 
@@ -125,16 +129,13 @@
 {{- end}}
 
 {{- /* Search */}}
-{{- if (eq .Layout `search`) -}}
+{{ if .Site.Params.enableSearch | default true }}
 <link crossorigin="anonymous" rel="preload" as="fetch" href="../index.json">
-{{- $fastsearch := resources.Get "js/fastsearch.js" | js.Build (dict "params" (dict "fuseOpts" site.Params.fuseOpts)) }}
 {{- $fusejs := resources.Get "js/fuse.basic.min.js" }}
+{{- $fastsearch := resources.Get "js/fastsearch.js" | js.Build (dict "params" (dict "fuseOpts" site.Params.fuseOpts)) }}
 {{- if not site.Params.assets.disableFingerprinting }}
 {{- $search := (slice $fusejs $fastsearch ) | resources.Concat "assets/js/search.js" | minify | fingerprint }}
 <script defer crossorigin="anonymous" src="{{ $search.RelPermalink }}" integrity="{{ $search.Data.Integrity }}"></script>
-{{- else }}
-{{- $search := (slice $fusejs $fastsearch ) | resources.Concat "assets/js/search.js" | minify }}
-<script defer crossorigin="anonymous" src="{{ $search.RelPermalink }}"></script>
 {{- end }}
 
 {{- else }}
