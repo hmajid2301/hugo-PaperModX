@@ -1,6 +1,8 @@
 # PaperModX
 
-## My Changes
+## Haseeb's Fork
+
+My own for of PaperModX adds the following;
 
 - Mermaid Diagram Support
 - Series posts shown
@@ -9,7 +11,10 @@
   - Inspired by Blowfish Theme
 - Remove newsletter
 - FaunaDB to show likes per post
-- A bunch of PRs merged
+- Page Views
+- A bunch of PRs merged (from PaperModX)
+
+## My Changes
 
 PaperModX is a forked version of [PaperMod](https://github.com/adityatelange/hugo-PaperMod),
 it aims at adding new features and improving code quality,
