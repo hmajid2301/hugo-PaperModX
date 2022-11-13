@@ -6,7 +6,7 @@ My own for of PaperModX adds the following;
 
 - Mermaid Diagram Support
 - Series posts shown
-- Admonitions
+- Notice/Admonitions (Highlighted sections)
 - Inline Search
   - Inspired by Blowfish Theme
 - Remove newsletter
