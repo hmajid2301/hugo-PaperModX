@@ -134,11 +134,17 @@ function buildIndex() {
           minMatchCharLength: params.fuseOpts.minmatchcharlength ?? 1,
           shouldSort: params.fuseOpts.shouldsort ?? true,
           findAllMatches: params.fuseOpts.findallmatches ?? false,
-          keys: params.fuseOpts.keys ?? ['title', 'permalink', 'summary', 'content'],
           location: params.fuseOpts.location ?? 0,
           threshold: params.fuseOpts.threshold ?? 0.4,
           distance: params.fuseOpts.distance ?? 100,
-          ignoreLocation: params.fuseOpts.ignorelocation ?? true
+          ignoreLocation: params.fuseOpts.ignorelocation ?? true,
+          keys: params.fuseOpts.keys ?? 
+          [
+            { name: "title", weight: 0.8 },
+            { name: "section", weight: 0.2 },
+            { name: "summary", weight: 0.6 },
+            { name: "content", weight: 0.4 },
+          ],
       }
     }
     fuse = new Fuse(data, options);
