@@ -22,13 +22,13 @@
 /* NameBuiltinPseudo */ .chroma .bp {  }
 /* NameClass */ .chroma .nc { color: #50fa7b }
 /* NameConstant */ .chroma .no {  }
-/* NameDecorator */ .chroma .nd {  }
+/* NameDecorator */ .chroma .nd { color: #50fa7b }
 /* NameEntity */ .chroma .ni {  }
 /* NameException */ .chroma .ne {  }
 /* NameFunction */ .chroma .nf { color: #50fa7b }
 /* NameFunctionMagic */ .chroma .fm {  }
 /* NameLabel */ .chroma .nl { color: #8be9fd; font-style: italic }
-/* NameNamespace */ .chroma .nn {  }
+/* NameNamespace */ .chroma .nn { color: #ffffff }
 /* NameOther */ .chroma .nx {  }
 /* NameProperty */ .chroma .py {  }
 /* NameTag */ .chroma .nt { color: #ff79c6 }

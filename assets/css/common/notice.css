@@ -54,6 +54,9 @@ details.notice summary:after {
 .notice.note {
   border-left-color: #448aff;
 }
+.notice.note {
+  background-color: rgba(68, 138, 255, 0.1);
+}
 .notice.note .notice-title:before {
   color: #448aff;
   content: "\e903";
@@ -61,7 +64,7 @@ details.notice summary:after {
 .notice.abstract {
   border-left-color: #00b0ff;
 }
-.notice.abstract .notice-title {
+.notice.abstract {
   background-color: rgba(0, 176, 255, 0.1);
 }
 .notice.abstract .notice-title:before {
@@ -71,7 +74,7 @@ details.notice summary:after {
 .notice.info {
   border-left-color: #00b8d4;
 }
-.notice.info .notice-title {
+.notice.info {
   background-color: rgba(0, 184, 212, 0.1);
 }
 .notice.info .notice-title:before {
