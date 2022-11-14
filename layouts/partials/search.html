@@ -8,7 +8,7 @@
     <header class="search-header">
       <form class="search-form">
         <div class="search-icon">
-          {{ partial "icon.html" "search" }}
+          {{ safeHTML (index $.Site.Data.svg "search") }}
         </div>
         <input
           type="search"
@@ -23,7 +23,7 @@
         class="icon-hover"
         title="{{ i18n "search.close_button_title" }}"
       >
-        {{ partial "icon.html" "xmark" }}
+        {{ safeHTML (index $.Site.Data.svg "xmark") }}
       </button>
     </header>
     <section class="search-section">
