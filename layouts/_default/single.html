@@ -20,7 +20,7 @@
       {{- if .Params.ShowLikes | default site.Params.ShowLikes | default false}}
       {{- partial "likes.html" . }} 
       {{- end }}
-      {{ if and (.Params.ShowPageViews | default (.Site.Params.article.ShowPageViews | default true)) }}
+      {{ if and (.Params.ShowPageViews | default (.Site.Params.ShowPageViews | default true)) }}
         {{- partial "page_views.html" . -}}
       {{ end }}
 
